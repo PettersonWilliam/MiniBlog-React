@@ -2,45 +2,95 @@ import styles from './Register.module.css';
 
 import {useState, useEffect} from 'react';
 
-
+import { useAuthentication } from '../../hooks/useAuthentication';
 
 const Register = () => {
+	const [displayName, setDisplayName] = useState("");
+	const [email, setEmail] = useState("");
+	const [password, setPassword] = useState("");
+	const [confirmPassword, setConfirPassword] = useState("");
+	const [error, setError] = useState("");
+
+
+	const { createUser, error: authError, loading } = useAuthentication();
+
+	const handleSubmit = async e => {
+		e.preventDefault()
+
+		setError("")
+
+		const user = {
+			displayName,
+			email,
+			password
+		}
+
+		if (password !== confirmPassword) {
+			setError('As senhas precisam ser iguais')
+			return;
+		}
+
+		const res = await createUser(user);
+
+		console.log(res);
+	};
+
+	useEffect(() => {
+		if (authError) {
+			setError(authError);
+		}
+	}, [authError]);
+
   return (
-    <div>
-        <h1>Cadastre-se para postar</h1>
-        <p>Crie seu usuário e compartilhe suas hitórias</p>
-        <form>
-            <label>
-                <span>name:</span>
-                <input type="text"
-                name='displayName'
-                required
-                placeholder='Nome do usuário'/>
-            </label>
-            <label>
-                <span>E-mail:</span>
-                <input type="email"
-                name='email'
-                required
-                placeholder='E-mail do usuário'/>
-            </label>
-            <label>
-                <span>Senha:</span>
-                <input type="password"
-                name='password'
-                required
-                placeholder='Insira sua senha'/>
-            </label>
-            <label>
-                <span>Confirmação de senha:</span>
-                <input type="password"
-                name='ConfirmPassword'
-                required
-                placeholder='Confirme a sua senha'/>
-            </label>
-            <button className='btn'>Cadastrar</button>
-        </form>
-    </div>
+	<div className={styles.register}>
+		<h1>Cadastre-se para postar</h1>
+		<p>Crie seu usuário e compartilhe suas hitórias</p>
+		<form onSubmit={handleSubmit}>
+			<label>
+				<span>name:</span>
+				<input type="text"
+				name='displayName'
+				required
+				placeholder='Nome do usuário'
+				value={displayName}
+				onChange={ e => setDisplayName(e.target.value) }
+				/>
+			</label>
+			<label>
+				<span>E-mail:</span>
+				<input type="email"
+				name='email'
+				required
+				placeholder='E-mail do usuário'
+				value={email}
+				onChange={ e => setEmail(e.target.value) }
+				/>
+			</label>
+			<label>
+				<span>Senha:</span>
+				<input type="password"
+				name='password'
+				required
+				placeholder='Insira sua senha'
+				value={password}
+				onChange={ e => setPassword(e.target.value) }
+				/>
+			</label>
+			<label>
+				<span>Confirmação de senha:</span>
+				<input type="password"
+				name='ConfirmPassword'
+				required
+				placeholder='Confirme a sua senha'
+				value={confirmPassword}
+				onChange={ e => setConfirPassword(e.target.value) }
+				/>
+			</label>
+			{!loading && <button className='btn'>Cadastrar</button>}
+			{loading && <button className='btn' disabled > Aguarde...</button>}
+			{error && <p className='Error'>{error}</p>}
+		</form>
+	</div>
   )
 }
 
