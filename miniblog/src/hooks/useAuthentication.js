@@ -65,6 +65,17 @@ export const useAuthentication = () => {
             setError(systemErrorMessage);
         }
     };
+
+    //LOGOUT 
+    const logout = () => {
+        checkIfIsCancelled();
+
+        signOut(auth);
+    }
+
+
+
+
     //A funcao que coloca o cancelado como "true" assim que agente sair dessa pagina
     useEffect(() => {
         return () => setCancelled(true);
@@ -76,6 +87,7 @@ export const useAuthentication = () => {
         auth,
         createUser,
         error,
-        loading
+        loading,
+        logout
     }
 }
