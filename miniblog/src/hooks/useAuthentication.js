@@ -66,21 +66,44 @@ export const useAuthentication = () => {
         }
     };
 
-    //LOGOUT 
+    //LOGOUT
     const logout = () => {
         checkIfIsCancelled();
 
         signOut(auth);
     }
 
+    //LOGIN - SIGN IN
+    const login = async data => {
+        checkIfIsCancelled();
+        setLoading(false);
 
+        setLoading(true);
+        setError(false);
 
+        try {
+            await signInWithEmailAndPassword(auth, data.email, data.password)
+
+        } catch (error) {
+            let systemErrorMessage;
+
+            if (error.message.includes("user-not-found")) {
+                systemErrorMessage = "Usuário não encontrado."
+            } else if (error.message.includes("wrong-password")) {
+                systemErrorMessage = "Senha incorreta"
+            } else {
+                systemErrorMessage = "Ocorreu um erro, tente novamente mais tarde"
+            }
+
+            setError(systemErrorMessage);
+            setLoading(false);
+        }
+    };
 
     //A funcao que coloca o cancelado como "true" assim que agente sair dessa pagina
     useEffect(() => {
         return () => setCancelled(true);
     }, []);
-
 
 // aqui retornamos os nossos objeotos tanto de mensagem quanto de criacao e varios outros
     return {
@@ -88,6 +111,7 @@ export const useAuthentication = () => {
         createUser,
         error,
         loading,
-        logout
+        logout,
+        login
     }
 }
