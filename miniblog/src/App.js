@@ -1,7 +1,7 @@
 import './App.css';
 
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
-import { onAuthStateChange }  from 'firebase.onAuthStateChange'; // funcao que mapea se a autenticacao do usuario foi feita com sucesso
+import { onAuthStateChanged } from 'firebase/auth'; // funcao que mapea se a autenticacao do usuario foi feita com sucesso
 
 //hooks
 import { useState, useEffect } from 'react';
@@ -27,7 +27,7 @@ function App() {
 
     //toda vez que o usuario trocar de autenticacao ele fara esse mapeamento e setamos o usuario atravez do setUser chamndo a funcaop de onAuthStateChange(auth, (user) => {  --> setando a autent. e o usuario que ira logar que terá uma nova autenticacao
     useEffect(() => {
-        onAuthStateChange(auth, user => {
+        onAuthStateChanged(auth, user => {
             setUser(user)
         })
     }, [auth]);
