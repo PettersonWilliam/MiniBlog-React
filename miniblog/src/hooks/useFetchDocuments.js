@@ -3,7 +3,7 @@ import { db } from "../firebase/config";
 import {
     collection,
     query,
-    orderby,
+    orderBy,
     onSnapshot,
     where
 } from "firebase/firestore";
@@ -28,7 +28,7 @@ export const useFetchDocuments = (docCollection, search = null, uid = null) => {
             try {
                 let createQuery;
 
-                createQuery = await query(collectionRef, orderby("createdAt", "desc"));
+                createQuery = await query(collectionRef, orderBy("createdAt", "desc"));
 
                 await onSnapshot(createQuery, (querySnapshot) => {
 
