@@ -9,14 +9,19 @@ import { useFetchDocuments } from '../../hooks/useFetchDocuments';
 // components
 import PostDetail from '../../components/PostDetail';
 
-import React from 'react'
-
 const Home = () => {
     const [query, setQuery] = useState("");
     const {documents: posts, loading } = useFetchDocuments('posts');
 
+    const navigate = useNavigate()
+
     const handleSubmit = e => {
         e.preventDefault()
+
+        if (query) {
+        //se estiver algum valor no meu campo de busca, return Navigate manda pra outra pagina /search/ -- enviando com o parametro "createQuery" e com o texto do meu input dinamico ${query}
+        return navigate(`/search/?createQuery=${query}`);
+        }
     };
 
   return (

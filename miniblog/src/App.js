@@ -18,6 +18,7 @@ import Login from './pages/Login/Login';
 import Register from './pages/Register/Register';
 import CreatePost from './pages/CreatePost/CreatePost';
 import Dashboard from './pages/Dashboard/Dashboard';
+import Search from './pages/Search/Search';
 
 function App() {
     const [user, setUser] = useState(undefined); //inicializa como undefined pois ainda nao tem usuario
@@ -46,6 +47,7 @@ function App() {
                         <Routes>
                             <Route path='/' element={ <Home /> } />
                             <Route path='/About' element={ <About /> } />
+                            <Route path='/Search' element={ <Search /> } />
                             <Route path='/login' element={!user ? <Login/> : <Navigate to="/" /> } /> {/* se nao tiver usuario ele envia o usuario para tela de login e se tiver usuario ele vai pra tela "home" */}
                             <Route path='/register' element={ !user ? <Register/> : <Navigate to="/" /> } />
                             <Route path='/posts/create' element={ user ? <CreatePost/> : <Navigate to="/login" /> } />
