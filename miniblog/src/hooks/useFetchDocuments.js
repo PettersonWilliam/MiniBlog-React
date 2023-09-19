@@ -30,12 +30,12 @@ export const useFetchDocuments = (docCollection, search = null, uid = null) => {
                 //aqui fazemos a validacao ou vem a busca ou vem o id do usuario pra eu fazer a deshboard ou nao vem nada e eu faço o resgate de tudo
                 if (search) {
                     //where"tags" -> como tags é um array, temos acesso a um parametro chamado array-contains que é do proprio firebase verificando se a minha busca"search" esta dentro do array ordenando pela data de criacao"createdAt"
-                    createQuery = await query(collectionRef, where("tags", "array-contains", search), orderBy("createdAt", "desc"));
+                    createQuery = await query(collectionRef, where("tagsArray", "array-contains", search), orderBy("createdAt", "desc"));
                 } else {
                     createQuery = await query(collectionRef, orderBy("createdAt", "desc"));
                 }
 
-                await onSnapshot(createQuery, (querySnapshot) => {
+                await onSnapshot(createQuery, querySnapshot => {
                     setDocuments(
                         querySnapshot.docs.map(doc => ({
                             id: doc.id,
@@ -46,7 +46,6 @@ export const useFetchDocuments = (docCollection, search = null, uid = null) => {
 
                 setLoading(false);
             } catch (error) {
-                console.log(error);
                 setError(error.message);
 
                 setLoading(false);
