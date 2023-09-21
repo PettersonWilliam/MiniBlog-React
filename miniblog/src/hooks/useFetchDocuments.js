@@ -21,9 +21,9 @@ export const useFetchDocuments = (docCollection, search = null, uid = null) => {
         async  function loadData() {
             if (cancelled) return;
 
-            setLoading(true)
+            setLoading(true);
 
-            const collectionRef = await collection(db, docCollection)
+            const collectionRef = await collection(db, docCollection);
 
             try {
                 let createQuery;
@@ -54,7 +54,7 @@ export const useFetchDocuments = (docCollection, search = null, uid = null) => {
         loadData();//so vai ser chamado essa função quando chamar uma dessas iteraçoes -> quando fizer uma pesquisa, quando for selecionado algum ususario neste caso o "id" tbm quando for cancelado
 
         //[docCollection, search, uid, cancelled])  ---- >>>>  neste caso estamos mapeando cada busca: se for pela coleão, pelo input ou se estiver cancelado, pelo id ele mapea
-    }, [docCollection, search, uid, cancelled]);
+    }, [docCollection, documents, search, uid, cancelled]);
 
     // LIMPESA DE MEMORIA
     useEffect(() => {
