@@ -31,7 +31,10 @@ export const useFetchDocuments = (docCollection, search = null, uid = null) => {
                 if (search) {
                     //where"tags" -> como tags é um array, temos acesso a um parametro chamado array-contains que é do proprio firebase verificando se a minha busca"search" esta dentro do array ordenando pela data de criacao"createdAt"
                     createQuery = await query(collectionRef, where("tagsArray", "array-contains", search), orderBy("createdAt", "desc"));
-                } else {
+                } else if (uid) {
+                    //nesta query chamamos o post pelo id do usuario
+                    createQuery = await query(collectionRef, where("uid", "==", uid), orderBy("createdAt", "desc"));
+                }else {
                     createQuery = await query(collectionRef, orderBy("createdAt", "desc"));
                 }
 
@@ -54,7 +57,7 @@ export const useFetchDocuments = (docCollection, search = null, uid = null) => {
         loadData();//so vai ser chamado essa função quando chamar uma dessas iteraçoes -> quando fizer uma pesquisa, quando for selecionado algum ususario neste caso o "id" tbm quando for cancelado
 
         //[docCollection, search, uid, cancelled])  ---- >>>>  neste caso estamos mapeando cada busca: se for pela coleão, pelo input ou se estiver cancelado, pelo id ele mapea
-    }, [docCollection, documents, search, uid, cancelled]);
+    }, [docCollection, search, uid, cancelled]);
 
     // LIMPESA DE MEMORIA
     useEffect(() => {
