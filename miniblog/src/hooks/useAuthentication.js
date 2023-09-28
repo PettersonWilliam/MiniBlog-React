@@ -47,7 +47,6 @@ export const useAuthentication = () => {
 
             return user;
         } catch (error) {
-            console.log(error.message);
             console.log(typeof error.message);
 
             //COMO AS MENSAGENS DO BACKEND ESTAO VINDO EM INGLES TRATAMOS ELA AQUI ATRAVEZ DE UMA VERIFICACAO E QUANDO RETORNAR AO USUARIO TRAZER AS SEGUINTES MENSAGENS DESEJADAS

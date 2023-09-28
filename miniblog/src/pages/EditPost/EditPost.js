@@ -3,8 +3,9 @@ import styles from "./EditPost.module.css";
 import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useAuthValue } from "../../context/AuthContext";
-import { useInsertDocument } from "../../hooks/useInsertDocument";
+// import { useInsertDocument } from "../../hooks/useInsertDocument";
 import useFetchDocument from "../../hooks/useFetchDocument";
+import {useUpdateDocument} from "../../hooks/useUpdateDocument";
 
 const EditPost = () => {
     const {id} = useParams();
@@ -28,7 +29,7 @@ const EditPost = () => {
     }
   }, [post])
 
-  const { insertDocument, response } = useInsertDocument("posts");
+  const { updateDocument, response } = useUpdateDocument("posts");
 
  const { user } = useAuthValue();
 
@@ -63,17 +64,19 @@ const EditPost = () => {
     //se estiver com algum error eu nao permito que ele prossiga dando a messagem de erro do catch e em seguida caindo nessa condição se tem tem error para nesse passo
     if (formError) return;
 
-    insertDocument({
-      title,
-      image,
-      body,
-      tagsArray,
-      uid: user.uid,
-      createBy: user.displayName,
-    });
+    const data = {
+        title,
+        image,
+        body,
+        tagsArray,
+        uid: user.uid,
+        createBy: user.displayName,
+      }
+
+    updateDocument(id, data);
 
     // redirect to home page
-    navigate("/");
+    navigate("/dashboard");
 
   };
   return (
